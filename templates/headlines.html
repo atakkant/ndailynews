@@ -2,4 +2,13 @@
 {% extends "base.html" %}
 {% block title %} {{title}} {% endblock %}
 {% block header %} <h2 style="color:blue">{{title}}</h2> {% endblock %}
-{% block content %} {% include "news.html" %} {% endblock %}
+
+{% block content %}
+
+  {% if country_list %}
+    {% include "hlines.html" %}
+  {% endif %}
+
+    {% include "news.html" %}
+
+{% endblock %}

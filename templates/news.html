@@ -1,44 +1,24 @@
-
-    {% if country_list %}
-      <div class="container">
-        <div class="row">
-          <form class="form-inline" action="{{ url_for('headlines',country=value) }}" method="get">
-            <div class="form-group mx-sm-3 mb-2">
-              <select class="form-control" name="country">
-                {% if country %}:
-                  <option selected>{{country}}</option>
-                {% endif %}
-                {% for key,value in country_list.items() %}
-                  <option value="{{value}}">{{key}}</option>
-                {% endfor %}
-              </select>
-              <input type="submit" class="btn btn-primary ml-2" name="" value="Submit">
+{% if news %}
+  <div class="container">
+      {% for new in news %}
+        <div class="m-3">
+          <div class="col-md-auto">
+            <p class=""><strong><a href="{{ new['url'] }}">{{ new['title'] }}</a></strong></p>
+          </div>
+          <div class="row">
+            <div class="col-4 row align-items-start">
+              <img src="{{ new['urlToImage'] }}" alt="{{ new['title'] }}" class="img-fluid">
             </div>
-          </form>
+            <div class="col-8 row align-items-center ml-4">
+              <p class="">{{ new['description'] }}</p>
+            </div>
+          </div>
         </div>
-      </div>
-    {% endif %}
-    {% if news %}
-      <div class="container">
-          {% for new in news %}
-            <div class="m-3">
-              <div class="col-md-auto">
-                <p class=""><strong><a href="{{ new['url'] }}">{{ new['title'] }}</a></strong></p>
-              </div>
-              <div class="row">
-                <div class="col-4 row align-items-start">
-                  <img src="{{ new['urlToImage'] }}" alt="{{ new['title'] }}" class="img-fluid">
-                </div>
-                <div class="col-8 row align-items-center ml-4">
-                  <p class="">{{ new['description'] }}</p>
-                </div>
-              </div>
-            </div>
-            <hr>
-          {% endfor %}
-      </div>
-    {% else %}
-      <div class="row">
-        <p>please select a country for viewing the headlines</p>
-      </div>
-    {% endif %}
+        <hr>
+      {% endfor %}
+  </div>
+{% else %}
+  <div class="row">
+    <p>{{starting_message}}</p>
+  </div>
+{% endif %}

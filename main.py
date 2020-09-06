@@ -56,22 +56,39 @@ def headlines():
         for key,value in country_list.items():
             if value == country:
                 title = "Headlines for " + key
+        starting_message = ""
     else:
         news = ""
         title = "Headlines"
+        starting_message = "Select a country to view top headlines"
 
 
-    return render_template("headlines.html", news=news, country_list=country_list, title=title)
+    return render_template("headlines.html", news=news, country_list=country_list, title=title, starting_message=starting_message)
 
-@app.route("/city",methods=["GET"])
-def city():
-    data = get_news("city")
-    return render_template("city.html", news=data, title="City")
+
+@app.route("/search")
+#@app.route("/search/<keyword>",methods=["GET"])
+def search(keyword=None):
+    if request.args:
+        keyword = request.args['keyword']
+        data = get_news(keyword)
+        starting_message = ""
+    else:
+        data = ""
+        starting_message = "Please enter keyword(s) for searching in news"
+
+    if keyword:
+        title = 'Search for "%s"'%keyword
+    else:
+        title = "Search for keywords"
+    return render_template("search.html", keyword=keyword, news=data, title=title, starting_message=starting_message)
+
 
 @app.route("/woman",methods=["GET"])
 def women():
     data = get_news("woman")
     return render_template("woman.html", news=data, title="Woman")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
